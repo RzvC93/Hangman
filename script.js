@@ -86,7 +86,7 @@ function displayWordWithBlanks() {
         if (correctLetters.includes(word[i])) {
             span.textContent = word[i];  
         } else {
-            span.textContent = '_ ';  
+            span.textContent = ' ';  
         }
         selectedWordDisplay.appendChild(span);
     }
@@ -94,7 +94,8 @@ function displayWordWithBlanks() {
 displayWordWithBlanks();
 
 function updateWordDisplay() {
-    const guessedLetter = document.querySelector('.input-letter').value.trim().toLowerCase();
+    const guessedLetter = document.querySelector(
+        '.input-letter').value.trim().toLowerCase();
     const errorMsg = document.getElementById('error-msg');
     errorMsg.textContent = ""; 
 
@@ -103,47 +104,55 @@ function updateWordDisplay() {
         return;
     }
 
-    if (correctLetters.includes(guessedLetter) || wrongLetters.includes(guessedLetter)) {
+    if (correctLetters.includes(guessedLetter) || 
+    wrongLetters.includes(guessedLetter)) {
         errorMsg.textContent = "You already guessed that letter!";
         document.querySelector('.input-letter').value = "";
         return;
     }
 
     if (word.includes(guessedLetter)) {
-        correctLetters.push(guessedLetter);
+        correctLetters.push(guessedLetter); 
         displayWordWithBlanks();
+        document.getElementById('correct-letters').textContent = 
+            "Correct Letters: " + correctLetters.join(", ");
 
-        // Actualizează afișajul pentru literele corecte
-        document.getElementById('correct-letters').textContent = "Correct Letters: " + correctLetters.join(", ");
-
-        // Verifică dacă toate literele au fost ghicite
-        const allLettersGuessed = word.split('').every(letter => correctLetters.includes(letter));
-        if (allLettersGuessed) {
-            errorMsg.textContent = "Congratulations! You've guessed the word!";
-
-            // Resetează jocul după ce cuvântul a fost ghicit
-            word = getRandomWord();  
-            correctLetters = [];  
-            wrongLetters = [];  
-            noOfLives = 7;  
-            hangmanStage.textContent = stages[0];  
-
-            // Actualizăm afișările pentru cuvânt și litere
-            displayWordWithBlanks();
-            document.getElementById('correct-letters').textContent = "Correct Letters: ";
-            document.getElementById('wrong-letters').textContent = "Wrong Letters: ";
-            document.getElementById('no-of-lives').textContent = "Lives: " + noOfLives;
-            document.querySelector('.input-letter').value = ""; 
-            return; 
-        }
+        if (checkWin()) return;
     } else {
         wrongLetters.push(guessedLetter);
-        document.getElementById('wrong-letters').textContent = "Wrong Letters: " + wrongLetters.join(", ");
-        const gameOver = decreaseLives();
-        if (gameOver) {
-            return;  // Oprim execuția funcției dacă jocul este resetat din decreaseLives
-        }
+        document.getElementById('wrong-letters').textContent = 
+            "Wrong Letters: " + wrongLetters.join(", ");
+
+        if(decreaseLives()) return;
+
     }
+    document.querySelector('.input-letter').value = ""; 
+}
+
+function checkWin() {
+    const allLettersGuessed = word.split('').every(
+        letter => correctLetters.includes(letter)
+    );
+
+    if (allLettersGuessed) {
+        document.getElementById('error-msg').textContent = 
+            "Congratulations! You've guessed the word!";
+        resetGame();
+        return true;
+    }
+    return false;
+}
+
+function resetGame() {
+    word = getRandomWord();  
+    correctLetters = [];  
+    wrongLetters = [];  
+    noOfLives = 7;  
+    hangmanStage.textContent = stages[0];  
+    displayWordWithBlanks();
+    document.getElementById('correct-letters').textContent = "Correct Letters: ";
+    document.getElementById('wrong-letters').textContent = "Wrong Letters: ";
+    document.getElementById('no-of-lives').textContent = "Lives: " + noOfLives;
     document.querySelector('.input-letter').value = ""; 
 }
 
@@ -151,29 +160,14 @@ function decreaseLives() {
     const errorMsg = document.getElementById('error-msg');
     errorMsg.textContent = "";
     --noOfLives; 
-    const livesDisplay = document.getElementById('no-of-lives');
-    livesDisplay.innerHTML = "Lives: " + noOfLives;
 
+    document.getElementById('no-of-lives').innerHTML = "Lives: " + noOfLives;
     hangmanStage.textContent = stages[7 - noOfLives];
 
-    // Verifică dacă jucătorul a rămas fără vieți
     if (noOfLives === 0) {
         errorMsg.textContent = ("Game Over! The word was: " + word);
-        
-        // Resetează jocul și începe cu un nou cuvânt
-        word = getRandomWord();
-        correctLetters = [];
-        wrongLetters = [];
-        noOfLives = 7;
-        hangmanStage.textContent = stages[0]; 
-
-        // Actualizăm afișările pentru cuvânt și litere
-        displayWordWithBlanks();
-        document.getElementById('correct-letters').innerHTML = "Correct Letters: ";
-        document.getElementById('wrong-letters').innerHTML = "Wrong Letters: ";
-        livesDisplay.innerHTML = "Lives: " + noOfLives;
-        document.querySelector('.input-letter').value = ""; 
-        return true;  // Oprim jocul, a început unul nou
+        resetGame();
+        return true; 
     }
-    return false;  // Continuăm jocul
+    return false;  
 }
