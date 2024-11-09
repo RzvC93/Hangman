@@ -1,46 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hangman</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
-    <meta name="Problem 4" content="Warming personal project / Hangman">
-    <link rel="stylesheet" href="stylesheet.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <meta name="Problem 4" content="Warming personal project / Hangman" />
+    <link rel="stylesheet" href="stylesheet.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1 id="main-title">Welcome to Hangman</h1>
-        <hr id="main-title-divider">
-        <div class="guess-card card">
-            <div class="card-body2">
-                <h1 id="guess-title">Guess the word</h1>
-                <hr id="guess-title-divider">
-                <div class="display-word" id="display-word"></div>
-                <div class="input-group">
-                    <input type="text" class="input-letter" placeholder="Enter the lucky letter">
-                </div>
-                <div class="error-msg" id="error-msg"></div>
-                <div class="button-group">
-                    <button type="button" id="btn-check" onclick="updateWordDisplay()">Check</button>
-                </div>
-            </div>
+      <h1 id="main-title">Welcome to Hangman</h1>
+      <hr id="main-title-divider" />
+      <div class="guess-card card">
+        <div class="card-body2">
+          <h1 id="guess-title">Guess the word</h1>
+          <hr id="guess-title-divider" />
+          <div class="display-word" id="display-word"></div>
+          <div class="input-group">
+            <input
+              type="text"
+              class="input-letter"
+              placeholder="Enter the lucky letter"
+            />
+          </div>
+          <div class="error-msg" id="error-msg"></div>
+          <div class="button-group">
+            <button type="button" id="btn-check" onclick="updateWordDisplay()">
+              Check
+            </button>
+          </div>
         </div>
-        <div class="guess-tracker-card card">
-            <div class="card-body">
-                <div class="tracker-panel left" id="wrong-letters">
-                    <h3 id="tracker-wrong-title">Wrong Letters</h3>
-                </div>
-                <div class="tracker-panel center" id="no-of-lives">
-                    <h3 id="tracker-lives-title">Lives: 7</h3>
-                </div>
-                <div class="tracker-panel right" id="correct-letters">
-                    <h3 id="tracker-correct-title">Correct Letters</h3>
-                </div>
-            </div>
+      </div>
+      <div class="guess-tracker-card card">
+        <div class="card-body">
+          <div class="tracker-panel left" id="wrong-letters">
+            <h3 id="tracker-wrong-title">Wrong Letters</h3>
+          </div>
+          <div class="tracker-panel center" id="no-of-lives">
+            <h3 id="tracker-lives-title">Lives: 7</h3>
+          </div>
+          <div class="tracker-panel right" id="correct-letters">
+            <h3 id="tracker-correct-title">Correct Letters</h3>
+          </div>
         </div>
-        <div id="hangman-stage"></div>
-    </div >
+      </div>
+      <div id="hangman-stage"></div>
+    </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
